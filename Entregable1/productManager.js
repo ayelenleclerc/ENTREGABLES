@@ -25,7 +25,7 @@ class ProductManager {
       }
       this.products.push(product);
     } else {
-      console.log("El código no puede repetirse");
+      return console.log("El código no puede repetirse");
     }
   };
 
