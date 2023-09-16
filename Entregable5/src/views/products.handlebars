@@ -1,0 +1,167 @@
+<div class="itemListProducts">
+  <div class="btn-group" role="group" aria-label="Basic outlined example">
+    <a href="?query=category:Akapol"><button
+        type="button"
+        class="btn btn-outline-primary"
+      >Akapol</button></a>
+    <a href="?query=category:Benevia"><button
+        type="button"
+        class="btn btn-outline-primary"
+      >Benevia</button></a>
+    <a href="?query=category:Bonafide"><button
+        type="button"
+        class="btn btn-outline-primary"
+      >Bonafide</button></a>
+    <a href="?query=category:Felfort"><button
+        type="button"
+        class="btn btn-outline-primary"
+      >Felfort</button></a>
+    <a href="?query=category:Ferrero"><button
+        type="button"
+        class="btn btn-outline-primary"
+      >Ferrero</button></a>
+    <a href="?query=category:Fun Candy"><button
+        type="button"
+        class="btn btn-outline-primary"
+      >Fun Candy</button></a>
+    <a href="?query=category:Gillete"><button
+        type="button"
+        class="btn btn-outline-primary"
+      >Gillete</button></a>
+    <a href="?query=category:Jorgito"><button
+        type="button"
+        class="btn btn-outline-primary"
+      >Jorgito</button></a>
+
+    <a href="?query=category:Kinder"><button
+        type="button"
+        class="btn btn-outline-primary"
+      >Kinder</button></a>
+    <a href="?query=category:MC"><button
+        type="button"
+        class="btn btn-outline-primary"
+      >MC</button></a>
+    <a href="?query=category:MR"><button
+        type="button"
+        class="btn btn-outline-primary"
+      >MR</button></a>
+    <a href="?query=category:Nutella"><button
+        type="button"
+        class="btn btn-outline-primary"
+      >Nutella</button></a>
+    <a href="?query=category:Preservativos"><button
+        type="button"
+        class="btn btn-outline-primary"
+      >Preservativos</button></a>
+    <a href="?query=category:Sarandi"><button
+        type="button"
+        class="btn btn-outline-primary"
+      >Sarandi</button></a>
+    <a href="?query=category:Sedal"><button
+        type="button"
+        class="btn btn-outline-primary"
+      >Sedal</button></a>
+    <a href="?query=category:Terrabusi"><button
+        type="button"
+        class="btn btn-outline-primary"
+      >Terrabusi</button></a>
+    <a href="?query=category:TicTac"><button
+        type="button"
+        class="btn btn-outline-primary"
+      >TicTac</button></a>
+    <a href="?query=category:Valente"><button
+        type="button"
+        class="btn btn-outline-primary"
+      >Valente</button></a>
+    <a href="?query=category:Varios"><button
+        type="button"
+        class="btn btn-outline-primary"
+      >Varios</button></a>
+    <a href="?sort=asc"><button
+        type="button"
+        class="btn btn-outline-primary"
+      >Ordenar ⬆️</button></a>
+    <a href="?sort=desc"><button
+        type="button"
+        class="btn btn-outline-primary"
+      >Ordenar ⬇️</button></a>
+
+  </div>
+
+</div>
+
+<div class="row row-cols-1 row-cols-md-4 g-4 p-3">
+
+  {{#each product.payLoad}}
+    <div class="col">
+      <div class="card h-100">
+        <img src={{this.thumbnail}} class="card-img-top" alt="..." />
+        <div class="card-body">
+          <h5 class="card-title">{{this.title}}</h5>
+          <p class="card-text">Descripción: {{this.description}}</p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Precio: $ {{this.price}} </li>
+          <li class="list-group-item">Categoria: {{this.category}} </li>
+        </ul>
+        <div class="card-body">
+          <a href="#" class="btn btn-primary botonAdd" id={{this._id}}>Añadir al
+            carrito</a>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">stock: {{this.stock}} Unidades </small>
+        </div>
+      </div>
+    </div>
+  {{/each}}
+
+</div>
+
+<nav aria-label="...">
+  <ul class="pagination">
+    {{#if product.hasPrevPage}}
+      <li class="page-item">
+        <a
+          class="page-link"
+          href={{product.prevLink}}
+          tabindex="-1"
+          aria-disabled={{product.hasPrevPage}}
+        >Previous</a>
+      </li>
+    {{else}}
+      <li class="page-item disabled">
+        <a
+          class="page-link"
+          href={{product.prevLink}}
+          tabindex="-1"
+          aria-disabled={{product.hasPrevPage}}
+        >Previous</a>
+      </li>
+    {{/if}}
+
+    <li class="page-item active" aria-current="page">
+      <span class="page-link">Pagina
+        {{product.page}}/{{product.totalPages}}</span>
+    </li>
+
+    {{#if product.hasNextPage}}
+      <li class="page-item">
+        <a
+          class="page-link"
+          href={{product.nextLink}}
+          aria-disabled={{product.hasNextPage}}
+        >Next</a>
+      </li>
+    {{else}}
+      <li class="page-item disabled">
+        <a
+          class="page-link"
+          href={{product.nextLink}}
+          aria-disabled={{product.hasNextPage}}
+        >Next</a>
+      </li>
+    {{/if}}
+
+  </ul>
+</nav>
+<script src="/js/products.js"></script>
