@@ -99,8 +99,16 @@
   margin-top: 5vh;
 }
 .nav-link {
-  font-size: 150%;
+  font-size: 120%;
   border-color: #687d77;
+}
+.navbar {
+  background-color: #ffffff;
+  padding: 0;
+}
+
+.contenedorPrincipal {
+  background-color: #c1c1c11a;
 }
 
 .itemsNavBar {
@@ -109,5 +117,17 @@
 }
 #carrito {
   display: flex;
-  width: 100%;
+}
+#numerito {
+  text-decoration: none;
+}
+.cart-user {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: stretch;
+}
+
+.user {
+  width: 50%;
 }

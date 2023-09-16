@@ -12,15 +12,18 @@ import mongoose from "mongoose";
 import messageMananger from "./dao/messageManager.js";
 import messageRouter from "./Routes/message.router.js";
 import cookieParser from "cookie-parser";
+import sessionRouter from "./Routes/session.router.js";
+import session from "express-session";
+import MongoStore from "connect-mongo";
 
 //Creo el servidor
 
-const puerto = 8080;
+const PORT = process.env.PORT || 8080;
 
 const app = express();
 
-const httpServer = app.listen(puerto, async () => {
-  console.log(`servidor conectado al puerto ${puerto}`);
+const httpServer = app.listen(PORT, async () => {
+  console.log(`servidor conectado al puerto ${PORT}`);
 });
 const socketServer = new Server(httpServer);
 
@@ -39,12 +42,25 @@ app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(
+  session({
+    store: MongoStore.create({
+      mongoUrl:
+        "mongodb+srv://Ayelenleclerc:yuskia13@backend.xrrgkdz.mongodb.net/ecommerce?retryWrites=true&w=majority",
+      mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
+      ttl: 15000,
+    }),
+    secret: "c0d3rS3cr3t",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
 app.use("/", viewsRouter);
 app.use("/api", productRouter);
 app.use("/api", cartRouter);
 app.use("/", messageRouter);
-app.use(cookieParser);
+app.use(cookieParser("c0d3rS3cr3t"));
 
 // instancio la clase para poder enviar a todos los clientes los productos
 
