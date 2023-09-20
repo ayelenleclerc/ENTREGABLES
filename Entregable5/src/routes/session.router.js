@@ -15,7 +15,7 @@ router.post("/register", async (req, res) => {
   if (userRegistered) {
     return res
       .send({ status: "error", error: "User already registered" })
-      .redirect("/session/login");
+      .redirect("/login");
   } else {
     const newUser = {
       firstName,
@@ -33,10 +33,7 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   //Oye, se supone que debe estar registrado ¿no?, entonces hay que buscarlo en la base de datos
   const { email, password } = req.body;
-  if (email === "adminCoder@coder.com" && password === "adminCod3r123") {
-    req.session.admin = true;
-    res.send({ status: "success", message: "Logueado" });
-  }
+
   if (!email || !password)
     return res
       .status(400)
@@ -48,6 +45,7 @@ router.post("/login", async (req, res) => {
       .send({ status: "error", error: "Incorrect Credentials" });
 
   req.session.user = user;
+
   res.send({ status: "success", message: "Logueado" });
 });
 

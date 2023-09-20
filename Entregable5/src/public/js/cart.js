@@ -2,13 +2,14 @@
 
 window.onload = function () {
   countItemCart();
-  let totalPrice = document.getElementsByClassName("totalPrice");
-  console.log(document.getElementsByClassName("price"));
-  for (i in totalPrice) {
-    let idProducto = totalPrice[i].id;
+  let totalPriceElements = document.getElementsByClassName("totalPrice");
+
+  for (let i = 0; i < totalPriceElements.length; i++) {
+    let idProducto = totalPriceElements[i].id;
     let precio = document.getElementById(`p${idProducto}`);
     let cantidad = document.getElementById(`q${idProducto}`);
-    totalPrice[i].innerHTML =
+
+    totalPriceElements[i].innerHTML =
       Number(precio.innerHTML) * Number(cantidad.innerHTML);
   }
 };
@@ -45,8 +46,4 @@ async function countItemCart() {
     countItem = productList.length;
   }
   cantidadCarrito.innerHTML = countItem;
-}
-
-{
-  category: -1;
 }

@@ -1,153 +1,104 @@
 import { Router } from "express";
-import cartManager from "../dao/cartManager.js";
+import ProductManager from "../dao/ProductManager.js";
 
-//isntancio la clase cartManager
+//instancio la clase Productmanager
 
-const CM = new cartManager();
+const PM = new ProductManager();
 
-const cartRouter = Router();
+const productRouter = Router();
 
-//crea el carrito
-cartRouter.post("/carts/", async (req, resp) => {
-  let newCart = await CM.createCart();
+productRouter.get("/products", async (req, resp) => {
+  let productos = await PM.getProducts(req.query);
 
-  if (newCart) {
-    resp.send(newCart);
-  } else {
-    resp
-      .status(500)
-      .send({ status: "error", message: "no se pudo crear el carrito" });
-  }
+  resp.send(productos);
 });
+productRouter.get("/products/:pid", async (req, resp) => {
+  let pid = req.params.pid;
 
-//obtener carrito por id
-cartRouter.get("/carts/:cid", async (req, resp) => {
-  let cid = req.params.cid;
-
-  if (cid == undefined) {
-    resp.status(500).send({
-      status: "error",
-      message: "no definio un id o el mismo es incorrecto.",
-    });
+  if (pid == undefined) {
+    resp.send(await PM.getProducts());
   } else {
-    let respuesta = await CM.getCartById(cid);
+    let respuesta = await PM.getProductById(pid);
     if (respuesta == false) {
-      resp.status(500).send({ status: "error", message: "no existe el id" });
+      resp.send("no existe el id");
     } else {
-      resp.send(await respuesta);
+      resp.send(await PM.getProductById(pid));
     }
   }
 });
 
-//elimino los productos del carrito
-cartRouter.delete("/carts/:cid", async (req, resp) => {
-  let cid = req.params.cid;
+productRouter.post("/products/", async (req, resp) => {
+  let { title, description, category, price, thumbnail, code, stock } =
+    req.body;
 
-  const deleteProductos = await CM.deleteTotalProduct(cid);
+  let productos = await PM.addProduct(
+    title,
+    description,
+    category,
+    price,
+    thumbnail,
+    code,
+    stock
+  );
 
-  if ((await deleteProductos) == "productosEliminado") {
-    resp.send("se eliminaron todos los productos correctamente");
+  if (productos == "valorVacio") {
+    resp
+      .status(400)
+      .send({ status: "error", message: "complete los campos obligatorios" });
+  } else if (productos == "codeRepetido") {
+    resp
+      .status(400)
+      .send({ status: "error", message: "ya existe producto con ese code" });
   } else {
-    resp.status(500).send({
-      status: "error",
-      message: "no existe ningun carrito con ese id",
-    });
+    resp.status(200).send("se agrego correctamente");
   }
 });
 
-//mostrar todos los carritos
-cartRouter.get("/carts", async (req, resp) => {
-  resp.send(await CM.getCarts());
-});
+productRouter.put("/products/:pid", async (req, resp) => {
+  const id = req.params.pid;
+  let { title, description, category, price, thumbnail, code, stock } =
+    req.body;
 
-//agregar producto al carrito
-cartRouter.post("/carts/:cid/product/:pid", async (req, resp) => {
-  const cid = req.params.cid;
-  const pid = req.params.pid;
-  const { quantity } = req.body;
-  const agregarProducto = await CM.addProduct(cid, pid, quantity);
+  let productos = await PM.updateProduct(
+    id,
+    title,
+    description,
+    category,
+    price,
+    thumbnail,
+    code,
+    stock
+  );
 
-  if ((await agregarProducto) == "productoAgregado") {
-    resp.send("se agrego el producto correctamente");
-  } else if ((await agregarProducto) == "pidNotFound") {
-    resp.status(500).send({
-      status: "error",
-      message: "no se encontro el producto con ese id",
-    });
+  if (productos == "valorVacio") {
+    resp
+      .status(400)
+      .send({ status: "error", message: "complete los campos obligatorios" });
+  } else if (productos == "codeRepetido") {
+    resp
+      .status(400)
+      .send({ status: "error", message: "ya existe producto con ese code" });
+  } else if (productos == "idInvalido") {
+    resp
+      .status(400)
+      .send({ status: "error", message: "no existen productos con ese ID" });
   } else {
-    resp.status(500).send({
-      status: "error",
-      message: "no se encontro el carrito con ese id",
-    });
+    resp.status(200).send("se actualizo correctamente");
   }
 });
 
-//eliminar producto del carrito
-cartRouter.delete("/carts/:cid/product/:pid", async (req, resp) => {
-  const cid = req.params.cid;
-  const pid = req.params.pid;
+productRouter.delete("/products/:pid", async (req, resp) => {
+  const id = req.params.pid;
 
-  const deleteProducto = await CM.deleteProduct(cid, pid);
+  let productos = await PM.deleteProduct(id);
 
-  if ((await deleteProducto) == "productoEliminado") {
-    resp.send("se elimino el producto correctamente");
-  } else if ((await deleteProducto) == "pidNotFound") {
-    resp.status(500).send({
-      status: "error",
-      message: "no existe ningun producto en el carrito con ese id",
-    });
+  if (productos) {
+    resp.status(200).send("se elimino el producto correctamente");
   } else {
-    resp.status(500).send({
-      status: "error",
-      message: "no se encontro el carrito con ese id",
-    });
+    resp
+      .status(400)
+      .send({ status: "error", message: "no se encontro el elemento" });
   }
 });
 
-//actualizar cantidad de producto carrito
-cartRouter.put("/carts/:cid/product/:pid", async (req, resp) => {
-  const cid = req.params.cid;
-  const pid = req.params.pid;
-  const { quantity } = req.body;
-
-  const agregarProducto = await CM.updateProduct(cid, pid, quantity);
-
-  if ((await agregarProducto) == "productoActualizado") {
-    resp.send("se actualizo el producto correctamente");
-  } else if ((await agregarProducto) == "pidNotFound") {
-    resp.status(500).send({
-      status: "error",
-      message: "no se encontro el producto con ese id",
-    });
-  } else {
-    resp.status(500).send({
-      status: "error",
-      message: "no se encontro el carrito con ese id",
-    });
-  }
-});
-
-//agregar productos a un carrito
-
-cartRouter.put("/carts/:cid", async (req, resp) => {
-  const cid = req.params.cid;
-  const products = req.body;
-
-  const agregarProducto = await CM.updateCart(cid, products);
-
-  if ((await agregarProducto) == "carritoActualizado") {
-    resp.send("se actualizo el carrito correctamente");
-  } else if (agregarProducto == "productosInvalidos") {
-    resp.status(500).send({
-      status: "error",
-      message: "ingreso un ID de producto que no existe",
-    });
-  } else {
-    resp.status(500).send({
-      status: "error",
-      message: "No existen carritos con ese ID elegido",
-    });
-  }
-});
-
-export default cartRouter;
+export default productRouter;

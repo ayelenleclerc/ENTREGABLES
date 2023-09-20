@@ -1,18 +1,18 @@
 import express from "express";
 import expressHandlebars from "express-handlebars";
 import Handlebars from "handlebars";
-import productRouter from "./Routes/products.router.js";
+import productRouter from "./routes/products.router.js";
 import { allowInsecurePrototypeAccess } from "@handlebars/allow-prototype-access";
-import cartRouter from "./Routes/cart.router.js";
+import cartRouter from "./routes/cart.router.js";
 import __dirname from "./utils.js";
-import viewsRouter from "./Routes/views.router.js";
+import viewsRouter from "./routes/views.router.js";
 import { Server } from "socket.io";
 import ProductManager from "./dao/ProductManager.js";
 import mongoose from "mongoose";
 import messageMananger from "./dao/messageManager.js";
 import messageRouter from "./Routes/message.router.js";
 import cookieParser from "cookie-parser";
-import sessionRouter from "./Routes/session.router.js";
+import sessionRouter from "./routes/session.router.js";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 
@@ -60,6 +60,7 @@ app.use("/", viewsRouter);
 app.use("/api", productRouter);
 app.use("/api", cartRouter);
 app.use("/", messageRouter);
+app.use("/api/sessions", sessionRouter);
 app.use(cookieParser("c0d3rS3cr3t"));
 
 // instancio la clase para poder enviar a todos los clientes los productos

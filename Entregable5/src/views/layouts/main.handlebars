@@ -19,7 +19,7 @@
         <div class="container-fluid">
           <a class="navbar-brand p-0" href="#">
             <img
-              src="../../public/images/Logo.jpg"
+              src="/images/Logo.jpg"
               alt=""
               width="100"
               height="90"
@@ -65,9 +65,9 @@
                 <span
                   id="usuario"
                   class="position-relative top-100 start-0 translate-middle badge bg-dark"
-                >{{user}}</span>
+                >{{user.firstName}}</span>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                  <li>Bienvenido {{user}}</li>
+                  <li>Bienvenido {{user.firstName}}</li>
                   <li><a
                       class="dropdown-item Logout"
                       id="logout"

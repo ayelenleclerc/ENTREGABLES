@@ -14,7 +14,7 @@ function authAdmin(req, res, next) {
 
 //creo el middleware para autenticar logueo
 function auth(req, res, next) {
-  if (req.session.userName) {
+  if (req.session.user) {
     return next();
   }
   res.redirect("/login");
@@ -23,7 +23,7 @@ function auth(req, res, next) {
 
 //creo el middleware para autenticar logueo
 function authLogin(req, res, next) {
-  if (req.session.userName) {
+  if (!req.session.user) {
     res.redirect("/products");
     return res.status(401).send("error de autorización!");
   }
@@ -35,10 +35,10 @@ function authLogin(req, res, next) {
 const PM = new ProductManager();
 const CM = new cartManager();
 
-const viewsRouter = Router();
+const router = Router();
 
-viewsRouter.get("/", auth, async (req, resp) => {
-  let userLogged = req.session.userName;
+router.get("/", auth, async (req, resp) => {
+  let userLogged = req.session.user;
 
   let productos = await PM.getProducts(req.query);
 
@@ -49,8 +49,8 @@ viewsRouter.get("/", auth, async (req, resp) => {
   });
 });
 
-viewsRouter.get("/products", auth, async (req, resp) => {
-  let userLogged = req.session.userName;
+router.get("/products", auth, async (req, resp) => {
+  let userLogged = req.session.user;
 
   let productos = await PM.getProducts(req.query);
 
@@ -61,8 +61,8 @@ viewsRouter.get("/products", auth, async (req, resp) => {
   });
 });
 
-viewsRouter.get("/realtimeproducts", authAdmin, async (req, resp) => {
-  let userLogged = req.session.userName;
+router.get("/realtimeproducts", authAdmin, async (req, resp) => {
+  let userLogged = req.session.user;
 
   resp.render("realTimeProducts", {
     user: userLogged,
@@ -70,8 +70,8 @@ viewsRouter.get("/realtimeproducts", authAdmin, async (req, resp) => {
   });
 });
 
-viewsRouter.get("/chat", auth, async (req, resp) => {
-  let userLogged = req.session.userName;
+router.get("/chat", auth, async (req, resp) => {
+  let userLogged = req.session.user;
 
   resp.render("chat", {
     user: userLogged,
@@ -79,8 +79,8 @@ viewsRouter.get("/chat", auth, async (req, resp) => {
   });
 });
 
-viewsRouter.get("/cart/:cid", auth, async (req, resp) => {
-  let userLogged = req.session.userName;
+router.get("/cart/:cid", auth, async (req, resp) => {
+  let userLogged = req.session.user;
 
   let cid = req.params.cid;
   let respuesta = await CM.getCartById(cid);
@@ -91,18 +91,18 @@ viewsRouter.get("/cart/:cid", auth, async (req, resp) => {
   });
 });
 
-viewsRouter.get("/login", authLogin, async (req, resp) => {
+router.get("/login", authLogin, async (req, resp) => {
   resp.render("login", {
     style: "../../css/style.css",
   });
 });
-viewsRouter.get("/register", authLogin, async (req, resp) => {
+router.get("/register", authLogin, async (req, resp) => {
   resp.render("register", {
     style: "../../css/style.css",
   });
 });
-viewsRouter.get("/profile", async (req, resp) => {
-  let userLogged = req.session.userName;
+router.get("/profile", async (req, resp) => {
+  let userLogged = req.session.user;
 
   resp.render("profile", {
     user: userLogged,
@@ -110,4 +110,4 @@ viewsRouter.get("/profile", async (req, resp) => {
   });
 });
 
-export default viewsRouter;
+export default router;
