@@ -1,0 +1,64 @@
+<div>
+  <div class="formulario">
+    <form id="registerForm" class="formularioPart">
+      <legend class="tituloLegend">Registro de usuarios
+        <hr />
+      </legend>
+      <label htmlFor="firstName"> Nombre: </label>
+      <input
+        class="form-control"
+        type="text"
+        name="firstName"
+        id="nombre"
+        placeholder="nombre"
+      />
+      <label htmlFor="lastName"> Apellido: </label>
+      <input
+        class="form-control"
+        type="text"
+        name="lastName"
+        id="apellido"
+        placeholder="apellido"
+      />
+      <label htmlFor="email"> E-mail: </label>
+      <input
+        class="form-control"
+        type="text"
+        name="email"
+        id="email"
+        placeholder="email"
+      />
+      <label htmlFor="age"> Edad: </label>
+      <input
+        class="form-control"
+        type="number"
+        name="age"
+        id="edad"
+        placeholder=""
+      />
+      <label htmlFor="password"> Password: </label>
+      <input
+        class="form-control"
+        type="text"
+        name="password"
+        id="contrasena"
+        placeholder="contrasena"
+      />
+      <label htmlFor="admin"> Administrator: </label>
+      <select name="admin" id="admin">
+        <option value="">--Please choose an option--</option>
+        <option value="si">si</option>
+        <option value="no">no</option>
+      </select>
+      <div id="alerta" class="form-text"></div>
+      <div class="contenedorBoton container">
+        <button
+          type="submit"
+          class="btn btn-outline-success btnFin"
+          id="botonRegister"
+        >AGREGAR</button>
+      </div>
+    </form>
+  </div>
+</div>
+<script src="./js/register.js"></script>

@@ -1,0 +1,39 @@
+<div>
+  <h1>Login</h1>
+
+  <form id="loginForm">
+    <div class="mb-3">
+      <label for="email" class="form-label">Email address (user)</label>
+      <input
+        name="email"
+        type="email"
+        class="form-control"
+        id="email"
+        aria-describedby="emailHelp"
+      />
+      <div id="emailHelp" class="form-text">We'll never share your email with
+        anyone else.</div>
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input
+        name="password"
+        type="password"
+        class="form-control"
+        id="password"
+      />
+    </div>
+    <div class="mb-3 form-check">
+      <div id="alerta" class="form-text"></div>
+      ¿No tienes una cuenta?
+      <a href="/register">Regístrate</a>
+
+    </div>
+    <button
+      type="submit"
+      id="botonLogin"
+      class="btn btn-primary"
+    >ingresar</button>
+  </form>
+</div>
+<script src="/js/login.js"></script>
