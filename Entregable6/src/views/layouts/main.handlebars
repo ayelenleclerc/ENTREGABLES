@@ -14,12 +14,13 @@
   <body>
     <div class="container p-0 contenedorPrincipal">
       <nav
+        id="navBar"
         class="rounded-bottom navbar navbar-expand-lg navbar-light sticky-top"
       >
         <div class="container-fluid">
           <a class="navbar-brand p-0" href="#">
             <img
-              src="/images/Logo.jpg"
+              src="/../../images/Logo.jpg"
               alt=""
               width="100"
               height="90"
@@ -51,7 +52,7 @@
 
               <div class="dropdown">
                 <button
-                  class="btn btn-secondary dropdown-toggle"
+                  class="btn btn-secondary dropdown-toggle botonUser"
                   type="button"
                   id="dropdownMenuButton1"
                   data-bs-toggle="dropdown"
@@ -61,15 +62,14 @@
                     class="fa-solid fa-user fa-beat fa-2xl"
                     style="color: #1f4251;"
                   ></i>
+                  <span
+                    id="usuario"
+                    class="position-relative top-100 start-0 translate-middle badge bg-dark"
+                  >{{user}}</span>
                 </button>
-                <span
-                  id="usuario"
-                  class="position-relative top-100 start-0 translate-middle badge bg-dark"
-                >{{user.firstName}}</span>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                  <li>Bienvenido {{req.user.firstName}}</li>
+                  <li>Bienvenido {{user}}</li>
                   <li><a
-                      href="/api/sessions/logout"
                       class="dropdown-item Logout"
                       id="logout"
                     >LogOut</a></li>

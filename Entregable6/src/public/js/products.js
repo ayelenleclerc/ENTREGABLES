@@ -1,4 +1,4 @@
-//cosulto al session storage si hay carrito, y con un get veo cuantos productos tiene
+///cosulto al session storage si hay carrito, y con un get veo cuantos productos tiene
 
 let countItem = 0;
 let cantidadCarrito = document.getElementById("numerito");
@@ -27,6 +27,24 @@ async function countItemCart() {
 }
 
 countItemCart();
+
+//logout
+
+async function logout() {
+  try {
+    let logout = await fetch(`/api/session/logout`, {
+      method: "get",
+    });
+    console.log("Sesion eliminada");
+    sessionStorage.removeItem("carrito");
+    location.href = "http://localhost:8080/login";
+  } catch (err) {
+    console.log("fallo " + err);
+  }
+}
+
+let logoutElement = document.getElementById("logout");
+logoutElement.onclick = logout;
 
 // guardo en el sessionStorage el ID del carrito en el que va trabajar el cliente. sino existe lo crea.
 async function validarCarrito() {
@@ -69,7 +87,7 @@ async function addToCart(idProducto) {
   let idCart = await validarCarrito();
 
   try {
-    let addProd = await fetch(`api/carts/${idCart}/product/${idProducto}`, {
+    let addProd = await fetch(`../api/carts/${idCart}/product/${idProducto}`, {
       method: "post",
       headers: {
         "Content-Type": "application/json",

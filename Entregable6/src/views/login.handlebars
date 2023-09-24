@@ -1,39 +1,39 @@
-<div>
-  <h1>Login</h1>
+<div class="contendorLogin">
+  <div class="login">
 
-  <form id="loginForm">
-    <div class="mb-3">
-      <label for="email" class="form-label">Email address (user)</label>
-      <input
-        name="email"
-        type="email"
-        class="form-control"
-        id="email"
-        aria-describedby="emailHelp"
-      />
-      <div id="emailHelp" class="form-text">We'll never share your email with
-        anyone else.</div>
-    </div>
-    <div class="mb-3">
-      <label for="password" class="form-label">Password</label>
-      <input
-        name="password"
-        type="password"
-        class="form-control"
-        id="password"
-      />
-    </div>
-    <div class="mb-3 form-check">
-      <div id="alerta" class="form-text"></div>
-      ¿No tienes una cuenta?
-      <a href="/register">Regístrate</a>
+    <form class="formularioLogin">
+      <h1>Inicia sesión</h1>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email address (user)</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          aria-describedby="emailHelp"
+        />
+        <div id="emailHelp" class="form-text">We'll never share your email with
+          anyone else.</div>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" id="password" />
+      </div>
+      <div class="mb-3 form-check">
+        <div id="alerta" class="form-text"></div>
+        <a href="/register">registrarme</a>
+        <a href="/restore">restaurar contraseña</a>
 
-    </div>
-    <button
-      type="submit"
-      id="botonLogin"
-      class="btn btn-primary"
-    >ingresar</button>
-  </form>
+      </div>
+      <button
+        id="botonLogin"
+        class="btn btn-outline-success btnLogin"
+      >ingresar</button>
+      <button id="botonGitHub" class="btn btnGit"><img
+          class="gitHubLogin"
+          src="/../../images/github.png"
+          alt=""
+        /></button>
+    </form>
+  </div>
 </div>
 <script src="/js/login.js"></script>

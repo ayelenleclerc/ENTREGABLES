@@ -2,14 +2,13 @@
 
 window.onload = function () {
   countItemCart();
-  let totalPriceElements = document.getElementsByClassName("totalPrice");
-
-  for (let i = 0; i < totalPriceElements.length; i++) {
-    let idProducto = totalPriceElements[i].id;
+  let totalPrice = document.getElementsByClassName("totalPrice");
+  console.log(document.getElementsByClassName("price"));
+  for (i in totalPrice) {
+    let idProducto = totalPrice[i].id;
     let precio = document.getElementById(`p${idProducto}`);
     let cantidad = document.getElementById(`q${idProducto}`);
-
-    totalPriceElements[i].innerHTML =
+    totalPrice[i].innerHTML =
       Number(precio.innerHTML) * Number(cantidad.innerHTML);
   }
 };
@@ -47,3 +46,21 @@ async function countItemCart() {
   }
   cantidadCarrito.innerHTML = countItem;
 }
+
+//logout
+
+async function logout() {
+  try {
+    let logout = await fetch(`/api/session/logout`, {
+      method: "get",
+    });
+    console.log("Sesion eliminada");
+    sessionStorage.removeItem("carrito");
+    location.href = "http://localhost:8080/";
+  } catch (err) {
+    console.log("fallo " + err);
+  }
+}
+
+let logoutElement = document.getElementById("logout");
+logoutElement.onclick = logout;

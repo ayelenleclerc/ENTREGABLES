@@ -12,45 +12,46 @@ function authAdmin(req, res, next) {
     .send("error de autorización! Ingrese con un usuario administrador");
 }
 
-// //creo el middleware para autenticar logueo
-// function auth(req, res, next) {
-//   if (req.session.user) {
-//     return next();
-//   }
-//   res.redirect("/login");
-//   return res.status(401).send("error de autorización!");
-// }
+//creo el middleware para autenticar logueo
+function auth(req, res, next) {
+  if (req.session.user) {
+    return next();
+  }
+  return res.status(401).send("error de autorización!");
+  //res.redirect("/login")
+}
 
-// //creo el middleware para autenticar logueo
-// function authLogin(req, res, next) {
-//   if (!req.session.user) {
-//     res.redirect("/products");
-//     return res.status(401).send("error de autorización!");
-//   }
-//   return next();
-// }
+//creo el middleware para autenticar logueo
+function authLogin(req, res, next) {
+  if (req.session.user) {
+    res.redirect("/products");
+    return res.status(401).send("error de autorización!");
+  }
+  return next();
+}
 
 //instancio la clase Productmanager
 
 const PM = new ProductManager();
 const CM = new cartManager();
 
-const router = Router();
+const viewsRouter = Router();
 
-// router.get("/", auth, async (req, resp) => {
-//   let userLogged = req.session.user;
+viewsRouter.get("/", auth, async (req, resp) => {
+  let userLogged = req.user.first_name;
 
-//   let productos = await PM.getProducts(req.query);
+  let productos = await PM.getProducts(req.query);
 
-//   resp.render("home", {
-//     product: productos.payLoad,
-//     user: userLogged,
-//     style: "style.css",
-//   });
-// });
+  resp.render("home", {
+    product: productos.payLoad,
+    user: userLogged,
+    style: "style.css",
+  });
+});
 
-router.get("/products", async (req, resp) => {
-  let userLogged = req.session.user;
+viewsRouter.get("/products", auth, async (req, resp) => {
+  let userLogged = req.user.first_name;
+  console.log("holasssssss " + userLogged);
 
   let productos = await PM.getProducts(req.query);
 
@@ -61,8 +62,8 @@ router.get("/products", async (req, resp) => {
   });
 });
 
-router.get("/realtimeproducts", async (req, resp) => {
-  let userLogged = req.session.user;
+viewsRouter.get("/realtimeproducts", authAdmin, async (req, resp) => {
+  let userLogged = req.user.first_name;
 
   resp.render("realTimeProducts", {
     user: userLogged,
@@ -70,8 +71,8 @@ router.get("/realtimeproducts", async (req, resp) => {
   });
 });
 
-router.get("/chat", async (req, resp) => {
-  let userLogged = req.session.user;
+viewsRouter.get("/chat", auth, async (req, resp) => {
+  let userLogged = req.user.first_name;
 
   resp.render("chat", {
     user: userLogged,
@@ -79,8 +80,8 @@ router.get("/chat", async (req, resp) => {
   });
 });
 
-router.get("/cart/:cid", async (req, resp) => {
-  let userLogged = req.session.user;
+viewsRouter.get("/cart/:cid", auth, async (req, resp) => {
+  let userLogged = req.user.first_name;
 
   let cid = req.params.cid;
   let respuesta = await CM.getCartById(cid);
@@ -91,43 +92,29 @@ router.get("/cart/:cid", async (req, resp) => {
   });
 });
 
-// router.get("/login", authLogin, async (req, resp) => {
-//   resp.render("login", {
-//     style: "../../css/style.css",
-//   });
-// });
-// router.get("/register", authLogin, async (req, resp) => {
-//   resp.render("register", {
-//     style: "../../css/style.css",
-//   });
-// });
-// router.get("/profile", async (req, resp) => {
-//   let userLogged = req.session.user;
+viewsRouter.get("/login", authLogin, async (req, resp) => {
+  resp.render("login", {
+    style: "../../css/style.css",
+  });
+});
+viewsRouter.get("/register", authLogin, async (req, resp) => {
+  resp.render("register", {
+    style: "../../css/style.css",
+  });
+});
+viewsRouter.get("/profile", async (req, resp) => {
+  let userLogged = req.user.first_name;
 
-//   resp.render("profile", {
-//     user: userLogged,
-//     style: "../../css/style.css",
-//   });
-// });
-
-router.get("/", async (req, res) => {
-  if (!req.session.user) {
-    //Si ya murió la sesión, redirige al login
-    return res.redirect("/login");
-  }
-  res.render("Profile", { user: req.session.user });
+  resp.render("profile", {
+    user: userLogged,
+    style: "../../css/style.css",
+  });
 });
 
-router.get("/profilejwt", async (req, res) => {
-  res.render("ProfileJWT");
+viewsRouter.get("/restore", async (req, resp) => {
+  resp.render("restore", {
+    style: "../../css/style.css",
+  });
 });
 
-router.get("/register", async (req, res) => {
-  res.render("Register");
-});
-
-router.get("/login", async (req, res) => {
-  res.render("Login");
-});
-
-export default router;
+export default viewsRouter;

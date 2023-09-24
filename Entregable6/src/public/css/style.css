@@ -3,7 +3,6 @@
   padding: 0;
   box-sizing: border-box;
 }
-
 .ajustes h1 {
   padding: 3vh;
   font-size: 300%;
@@ -23,6 +22,12 @@
   color: #687d77;
   width: 100%;
 }
+
+.ajustes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .itemListProducts {
   width: 100%;
   padding: 5px;
@@ -33,26 +38,6 @@
   flex-direction: row;
   flex-wrap: wrap;
 }
-.btn-group,
-.btn-group-vertical {
-  position: relative;
-  display: flex;
-  vertical-align: middle;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-content: center;
-  justify-content: center;
-  align-items: center;
-}
-.btn-outline-primary {
-  margin: 3px;
-}
-.ajustes {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 .encabezado {
   color: #ffffff;
   background-color: #687d77;
@@ -107,8 +92,21 @@
   padding: 0;
 }
 
+.btn-group,
+.btn-group-vertical {
+  position: relative;
+  display: flex;
+  vertical-align: middle;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
+
 .contenedorPrincipal {
   background-color: #c1c1c11a;
+  margin-bottom: 80px;
 }
 
 .itemsNavBar {
@@ -124,10 +122,50 @@
 .cart-user {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
-  align-items: stretch;
+  align-items: center;
 }
 
 .user {
   width: 50%;
+}
+
+.botonUser {
+  width: auto;
+  height: 50px;
+  background-color: rgba(74, 73, 73, 0.098);
+}
+#usuario {
+  position: relative;
+  top: 100px;
+}
+
+.login {
+  width: 40vw;
+  margin: none;
+  background-color: #6d6d6d36;
+  border-radius: 10%;
+}
+.contendorLogin {
+  display: flex;
+  justify-content: space-around;
+  padding-bottom: 80px;
+}
+.formularioLogin {
+  margin: 3vw;
+}
+.gitHubLogin {
+  width: 120px;
+}
+.btnGit {
+  background-color: rgb(255, 255, 255);
+  border-color: black;
+  color: black;
+}
+.btnLogin {
+  height: 50px;
+  width: 120px;
+}
+
+.ocultarElemento {
+  visibility: hidden;
 }

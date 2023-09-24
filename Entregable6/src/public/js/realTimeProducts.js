@@ -68,3 +68,21 @@ socket.on("productos", (data) => {
   contenedorTabla.innerHTML = contendor;
   botonEliminar();
 });
+
+//logout
+
+async function logout() {
+  try {
+    let logout = await fetch(`/api/session/logout`, {
+      method: "get",
+    });
+    console.log("Sesion eliminada");
+    sessionStorage.removeItem("carrito");
+    location.href = "http://localhost:8080/login";
+  } catch (err) {
+    console.log("fallo " + err);
+  }
+}
+
+let logoutElement = document.getElementById("logout");
+logoutElement.onclick = logout;
