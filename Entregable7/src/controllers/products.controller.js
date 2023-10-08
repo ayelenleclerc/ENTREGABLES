@@ -55,7 +55,6 @@ const deleteProduct = async (req, res) => {
 };
 
 export default {
-  getProducts,
   getProductBy,
   paginateProducts,
   createProduct,

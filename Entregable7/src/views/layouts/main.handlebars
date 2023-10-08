@@ -67,7 +67,7 @@
                   >{{user}}</span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                  <li>Bienvenido {{user}}</li>
+                  <li>Bienvenido {{user.name}}</li>
                   <li><a
                       class="dropdown-item Logout"
                       id="logout"
@@ -85,7 +85,7 @@
                     <span
                       id="numerito"
                       class="position-relative top-100 start-0 translate-middle badge rounded-pill bg-danger"
-                    >0</span>
+                    >{{req.user.cart.quantity}}</span>
                   </button>
                 </a>
               </div>

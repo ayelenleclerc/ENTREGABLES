@@ -1,9 +1,10 @@
 import BaseRouter from "./BaseRouter.js";
 import ProductManager from "../dao/mongo/managers/productManager.js";
+import CartManager from "../dao/mongo/managers/cartManager.js";
 import { getValidFilters } from "../utils.js";
 
 const productService = new ProductManager();
-
+const cartService = new CartManager();
 class ViewsRouter extends BaseRouter {
   init() {
     this.get("/register", ["NO_AUTH"], async (req, res) => {
@@ -52,6 +53,12 @@ class ViewsRouter extends BaseRouter {
     });
     this.get("/chat", ["PUBLIC"], (req, res) => {
       res.render("chat");
+    });
+
+    this.get("/cart", ["AUTH"], async (req, res) => {
+      const cart = await cartService.getCartById(req.user._id);
+      console.log(cart);
+      res.render("cart");
     });
   }
 }
